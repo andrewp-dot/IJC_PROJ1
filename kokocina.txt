@@ -1,0 +1,11 @@
+
+Termín odevzdání:  22.3.2022
+ Hodnocení celkem max. 15 bodů
+ Čtěte pokyny na konci tohoto textu
+
+vzostupne zobrazenie prvocisel
+(7b)
+m
+   Efektivita výpočtu: cca 2.1s na Intel i5-4690 @ 3.50GHz (gcc -O2)
+   Porovnejte efektivitu obou variant (makra vs. inline funkce).
+   Zamyslete se, jak by se ověřila efektivita pro (neinline) funkce.

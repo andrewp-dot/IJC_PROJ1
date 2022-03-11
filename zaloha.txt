@@ -1,0 +1,17 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "ppm.c"
+#include "error.c"
+
+int main(int argc, char ** argv)
+{
+    if (argc < 2)
+    {
+        error_exit("BEZ DO PICE BEZ ARGUMENTU.\n");
+    }
+
+    ppm_read(argv[1]);
+
+    return 0;
+}
