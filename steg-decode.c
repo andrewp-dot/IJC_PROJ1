@@ -33,7 +33,7 @@ void filter_message(struct ppm *p)
             current_byte |= current_bit; //save it to byte 
             if(bit_index == MSBINDEX) //after completing byte reset everything 
             {
-              // printf("\t current byte: %c %d \n", current_byte,current_byte);
+               if(current_byte > 31 && current_byte <126)printf("\t current byte: %c %d \n", current_byte,current_byte);
                 bit_index = 0;
                 current_byte = 0;// !!SPRAVY SU ASI V UNICODE !!
                 continue;
