@@ -22,14 +22,15 @@
 int main()
 {
     time(NULL);
-    
     double start = clock();
+
     bitset_alloc(bitarr,N); 
 
     eratosthenes(bitarr);
     print_primes(bitarr,10);
-    bitset_free(bitarr);
     
+    bitset_free(bitarr);
+
     fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
     return 0;
 }
