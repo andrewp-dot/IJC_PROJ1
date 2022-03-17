@@ -1,3 +1,13 @@
+/*
+    bitset.c
+    IJC-DU1, príklad a), 17.3.2022
+    Autor: Adrián Ponechal, FIT
+    Přeloženo: Apple clang version 13.0.0 (clang-1300.0.27.3)
+    
+    Popis:
+    externa deklaracia inline funkcii 
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "bitset.h"

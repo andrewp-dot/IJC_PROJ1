@@ -10,7 +10,7 @@
         v tomto poli je po vykonaní algortimu označené 0, násobky prvočísel sú nastavené
         na bit s hodnotou 1.
 
-        Funkcia printPrimes - funkcia na vypis prvocisel.
+        Funkcia print_primes - funkcia na vypis prvocisel.
 */
 
 #include <stdio.h>

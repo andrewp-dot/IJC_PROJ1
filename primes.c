@@ -3,7 +3,12 @@
     IJC-DU1, príklad a), 10.3.2111
     Autor: Adrián Ponechal, FIT
     Přeloženo: Apple clang version 13.0.0 (clang-1300.0.27.3)
-    ...popis příkladu - poznámky, omezení, atd
+
+    Popis:
+    Hlavna cast programu s funkciou main. Funkcia main vyuziva 
+    vsetky moduly potrebne pre inicializaciu bitoveho pola  a pracu s nim (bitset.h),
+    modul s eratosthenovym sitom na najdenie a vypis prvocisel (eratosthenes.h)
+    a modulom pre vypis hlaseni v pripade chyb (error.c)
 */
 
 #include <stdio.h>
@@ -17,8 +22,6 @@
 
 
 #define N 300000000
-//
-//CONTROL ARRAY SIZE
 
 int main()
 {
@@ -36,14 +39,3 @@ int main()
     fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
     return 0;
 }
-
-/*
-TO DO
-
-pripis maker do inline funkcii - podmieneny preklad
-chybove stavy
-
-assert na max velkost pola
-funkciu na dlzku behu programu 
-testovat aj pre 32 bit verziu
-*/

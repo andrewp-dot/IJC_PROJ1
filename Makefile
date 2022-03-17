@@ -1,13 +1,9 @@
 CC = clang
-CFLAGS = -O0 -g -std=c11 -pedantic -Wall -Wextra -Werror 
-#MATHFLAG = -lm
-#${MATHFLAG}
+CFLAGS = -O0 -g -std=c11 -pedantic -Wall -Wextra -Werror -lm
 
 make: primes.c bitset.c eratosthenes.c
-	${CC} ${CFLAGS} primes.c bitset.c eratosthenes.c -c 
-	${CC} ${CFLAGS} primes.o bitset.o eratosthenes.o -o primes ${MATHFLAG}
-	${CC} ${CFLAGS} -DUSE_INLINE  primes.c bitset.c eratosthenes.c -c  
-	${CC} ${CFLAGS} -DUSE_INLINE  primes.o bitset.o eratosthenes.o -o primes-i  ${MATHFLAG}
+	${CC} ${CFLAGS}  -o primes  primes.c bitset.c eratosthenes.c
+	${CC} ${CFLAGS} -o primes-i -DUSE_INLINE  primes.c bitset.c eratosthenes.c -o primes-i 
 
 run: make
 	./primes
