@@ -9,19 +9,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <locale.h>
 
-#include "eratosthenes.c"
+#include "eratosthenes.h"
 #include "bitset.h"
 #include "error.c"
 
 
-#define N 300000000 
+#define N 300000000
 //
 //CONTROL ARRAY SIZE
 
 int main()
 {
     time(NULL);
+    setlocale(LC_ALL,"cs_CZ.utf8");
     double start = clock();
 
     bitset_alloc(bitarr,N); 

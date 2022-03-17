@@ -1,8 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "ppm.h"
 #include "error.h"
 
+
+//TO DO 
+// ALLOCATE DATA ARR
+// REWRITE INLINE FUNCTIONS TO EXTERN MODULEs
 
 struct ppm * ppm_read(const char * filename)
 {

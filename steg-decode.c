@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <locale.h>
+#include <wchar.h>
 
 #include "ppm.h"
 #include "error.h" 
@@ -7,16 +9,20 @@
 #include "eratosthenes.h"
 
 #define START 29
-#define LSBFLAG 1
-#define MSBINDEX 7 //indexacia cisla 0...7 s
+#define LSB 1
+#define MSBINDEX 7//indexacia cisla 0...7 s
 
-void filter_message(struct ppm *p)
+void  filter_message(struct ppm *p, wchar_t * msg)
 {
     int data_size = 3*p->xsize*p->ysize*sizeof(char);
     char * data = p->data;
+
     char bit_index = 0;
     char current_bit = 0;
     char current_byte=0;
+
+    //char msg[101];
+    int msgI = 0;
 
     //print in unicode I guess
     bitset_alloc(mask, data_size * TO_BITS);
@@ -24,18 +30,21 @@ void filter_message(struct ppm *p)
 
     for(int cIdx = START; cIdx < data_size;cIdx++)
     {
+        
         if(bitset_getbit(mask,cIdx) == 0)
         {
-            //printf("%d \n", current_bit);
-            current_bit =  data[cIdx] & LSBFLAG<<bit_index; //get current LSB
-           // cIdx%7 > 0 ? printf("%d", current_bit > 0 ?  1 : 0) :  printf("\n");
+            current_bit =  data[cIdx] & LSB;//get current LSB
+            //bit_index%7 ? printf("%d", current_bit > 0 ?  1 : 0) :  printf("\n");
 
-            current_byte |= current_bit; //save it to byte 
+            current_byte |= current_bit<<bit_index; //save it to byte to it's position
             if(bit_index == MSBINDEX) //after completing byte reset everything 
             {
-               if(current_byte > 31 && current_byte <126)printf("\t current byte: %c %d \n", current_byte,current_byte);
+                if((int)current_byte >= 32 && (int)current_byte<=126) printf("%c", current_byte);
+                // *msg= current_byte;
+                // *(msg+msgI+ 1) = '\0';
                 bit_index = 0;
                 current_byte = 0;// !!SPRAVY SU ASI V UNICODE !!
+                msgI++;
                 continue;
             }
             bit_index++;
@@ -47,15 +56,27 @@ void filter_message(struct ppm *p)
 
 int main(int argc, char ** argv)
 {
+    setlocale(LC_CTYPE, "cs_CZ.utf8");
     if(argc != 2)
     {
         error_exit("BEZ DO PICE BEZ ARGUMENTU.\n");  
-    }
+    }   
+
   
     struct ppm * file = ppm_read(argv[1]);
-    filter_message(file);
-    ppm_free(file);
     
+    wchar_t message;
+    filter_message(file, &message);
+
+    /*const wchar_t * message = filter_message(file);
+    int i = 0;
+    while (*(message + i) != '\0')
+    {
+        fprintf(stdout, "%c", *(message+i));
+        i++;
+    }
+    */
+    ppm_free(file);
 
     return 0;
 } 
