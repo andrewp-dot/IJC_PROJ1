@@ -18,10 +18,9 @@
 
 #include "eratosthenes.h"
 #include "bitset.h"
-#include "error.c"
 
 
-#define N 300000000
+#define N 300000000 
 
 int main()
 {

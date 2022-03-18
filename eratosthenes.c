@@ -23,7 +23,6 @@ void eratosthenes(bitset_t * arr)
 {
     const unsigned long array_size = bitset_size(arr);
     double limit = sqrt(bitset_size(arr));
-
     for(unsigned long idx = 2; idx <= (unsigned long)limit; idx++)
     {
         if( bitset_getbit(arr,idx) == 0)
@@ -37,7 +36,7 @@ void eratosthenes(bitset_t * arr)
 }
 
 
-//vypsat poslednych 10 prvocisel VZOSTUPNE
+//vypsat poslednych N prvocisel VZOSTUPNE
 void print_primes(bitset_t * arr, int amount_of_primes)
 {
     int primes[amount_of_primes];

@@ -1,7 +1,19 @@
+/*
+    ppm.h
+    IJC-DU1, príklad a), 18.3.2022
+    Autor: Adrián Ponechal, FIT
+    Přeloženo: Apple clang version 13.0.0 (clang-1300.0.27.3)
+    
+    Popis:
+    filter_message - funkcia na vyfiltrovanie spravy zo zadaneho ppm suboru
+    funkcia main - hlavna cast programu, ziskanie a spracovanie ppm suboru 
+    a dekodovanie tajnej spravy v subore
+    
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
-#include <wchar.h>
 
 #include "ppm.h"
 #include "error.h" 
@@ -12,45 +24,40 @@
 #define LSB 1
 #define MSBINDEX 7//indexacia cisla 0...7 s
 
-void  filter_message(struct ppm *p, wchar_t * msg)
+void filter_message(struct ppm *image)
 {
-    int data_size = 3*p->xsize*p->ysize*sizeof(char);
-    char * data = p->data;
+    bitset_t data_size = 3*image->xsize*image->ysize*sizeof(char);
+    char * data = image->data;
 
     char bit_index = 0;
-    char current_bit = 0;
-    char current_byte=0;
-
-    //char msg[101];
-    int msgI = 0;
-
-    //print in unicode I guess
-    bitset_alloc(mask, data_size * TO_BITS);
+    char current_byte = 0;
+    
+    bitset_alloc(mask, data_size);
     eratosthenes(mask);
 
-    for(int cIdx = START; cIdx < data_size;cIdx++)
+
+    for(int charIdx = START; charIdx < (int)data_size; charIdx++)
     {
         
-        if(bitset_getbit(mask,cIdx) == 0)
+        if(bitset_getbit(mask,charIdx) == 0)
         {
-            current_bit =  data[cIdx] & LSB;//get current LSB
-            //bit_index%7 ? printf("%d", current_bit > 0 ?  1 : 0) :  printf("\n");
-
-            current_byte |= current_bit<<bit_index; //save it to byte to it's position
+            //if(charIdx <=40) printf("%c %d\n", data[charIdx+1] ,data[charIdx+1]);
+            if(data[charIdx+1] & LSB) current_byte |= (1<<bit_index); //zistit, preco to s +1 funguje
+             //save it to byte to it's position
+       
             if(bit_index == MSBINDEX) //after completing byte reset everything 
-            {
-                if((int)current_byte >= 32 && (int)current_byte<=126) printf("%c", current_byte);
-                // *msg= current_byte;
-                // *(msg+msgI+ 1) = '\0';
+            {   
+                if(current_byte == 0) break;
+                printf("%c", current_byte);
                 bit_index = 0;
-                current_byte = 0;// !!SPRAVY SU ASI V UNICODE !!
-                msgI++;
+                current_byte = 0;
+                charIdx++;
                 continue;
             }
             bit_index++;
         }
     }
-
+    printf("\n");
     bitset_free(mask);
 }
 
@@ -59,32 +66,11 @@ int main(int argc, char ** argv)
     setlocale(LC_CTYPE, "cs_CZ.utf8");
     if(argc != 2)
     {
-        error_exit("BEZ DO PICE BEZ ARGUMENTU.\n");  
+        error_exit("Malý počet argumentov.\n");  
     }   
-
-  
     struct ppm * file = ppm_read(argv[1]);
-    
-    wchar_t message;
-    filter_message(file, &message);
-
-    /*const wchar_t * message = filter_message(file);
-    int i = 0;
-    while (*(message + i) != '\0')
-    {
-        fprintf(stdout, "%c", *(message+i));
-        i++;
-    }
-    */
+    filter_message(file);
     ppm_free(file);
 
     return 0;
 } 
-
-//     Zpráva je řetězec znaků (char, včetně '\0') uložený po jednotlivých bitech - 
-//     (počínaje LSb) na nejnižších bitech (LSb) vybraných bajtů barevných složek
-//     v datech obrázku. Dekódování ukončete po dosažení '\0'.
-
-//     Pro DU1 budou vybrané bajty určeny prvočísly (počínaje od 29) -- použijte
-//     Eratostenovo síto podobně jako v příkladu "primes.c" a začněte prvočíslem 29.
-//     Velikost bitového pole musí odpovídat velikosti obrazových dat RGB.

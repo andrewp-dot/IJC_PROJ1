@@ -1,22 +1,24 @@
 CC = clang
-CFLAGS = -O0 -g -std=c11 -pedantic -Wall -Wextra -Werror -lm
+CFLAGS = -O2 -g -std=c11 -pedantic -Wall -Wextra -Werror -lm
 
-make: primes.c bitset.c eratosthenes.c
-	${CC} ${CFLAGS}  -o primes  primes.c bitset.c eratosthenes.c
-	${CC} ${CFLAGS} -o primes-i -DUSE_INLINE  primes.c bitset.c eratosthenes.c -o primes-i 
+make: primes.c bitset.c eratosthenes.c error.c
+	${CC} ${CFLAGS}  -o primes  primes.c bitset.c eratosthenes.c error.c
+	${CC} ${CFLAGS} -o primes-i -DUSE_INLINE  primes.c bitset.c eratosthenes.c error.c
 
 run: make
 	./primes
 	./primes-i	
 32:
-	${CC} -m32 primes.c -o primes
-	${CC} -m32 -DUSE_INLINE  primes.c -o primes-i
+	${CC} ${CFLAGS} -m32 -o primes  primes.c bitset.c eratosthenes.c error.c
+	${CC} ${CFLAGS} -m32 -o primes-i -DUSE_INLINE  primes.c bitset.c eratosthenes.c error.c
 pre:
 	${CC} -E primes.c 
 
 clean: 
-	rm -rf primes primes-i steg-decode *.o *dSYM
+	rm -rf primes primes-i steg-decode *.o *dSYM *.zip
 
 steg-decode: steg-decode.c ppm.c eratosthenes.c error.c
-	${CC} ${CFLAGS} steg-decode.c ppm.c eratosthenes.c error.c -c
-	${CC} ${CFLAGS} steg-decode.o ppm.o eratosthenes.o error.o -o steg-decode
+	${CC} ${CFLAGS} -o steg-decode steg-decode.c ppm.c eratosthenes.c error.c
+	
+zip: 
+	zip -r du1.zip *.h *.c Makefile du1-obrazek.ppm 
