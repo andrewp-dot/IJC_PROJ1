@@ -17,12 +17,13 @@
 #ifndef BITSET_H
 #define BITSET_H
 
+#include <assert.h>
 #include "error.h"
+
 
 #define SPACE_FOR_ARRAY_SIZE 1
 #define TO_BITS 8
 #define MAX_ARRAY_SIZE 300000000 
-#define static_assert _Static_assert
 
 //bitset array types
 typedef unsigned long bitset_t;
@@ -35,7 +36,7 @@ static_assert(size <= MAX_ARRAY_SIZE, "Zadana velkost pola je prilis velka.");
 bitset_t * array_name = (bitset_t *)calloc( SPACE_FOR_ARRAY_SIZE + (size / ( sizeof(bitset_t)*TO_BITS ) ) + ( size % ( sizeof(bitset_t)*TO_BITS ) != 0), sizeof(bitset_t) );\
 if(array_name == NULL) error_exit("bitset_alloc: Chyba alokace paměti. \n");\
 *array_name = size;\
-//static_assert(size <= MAX_ARRAY_SIZE, "Zadana velkost pola je prilis velka.");
+assert(size <= MAX_ARRAY_SIZE);
 
 //zaciatok podmienenho prekladu
 #ifdef USE_INLINE

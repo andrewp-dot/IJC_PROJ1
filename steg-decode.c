@@ -41,8 +41,7 @@ void filter_message(struct ppm *image)
         
         if(bitset_getbit(mask,charIdx) == 0)
         {
-            //if(charIdx <=40) printf("%c %d\n", data[charIdx+1] ,data[charIdx+1]);
-            if(data[charIdx+1] & LSB) current_byte |= (1<<bit_index); //zistit, preco to s +1 funguje
+            if(data[charIdx] & LSB) current_byte |= (1<<bit_index); 
              //save it to byte to it's position
        
             if(bit_index == MSBINDEX) //after completing byte reset everything 

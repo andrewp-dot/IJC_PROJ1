@@ -20,14 +20,14 @@ struct ppm * ppm_read(const char * filename)
     FILE *ppm_file= fopen(filename,"r");
     if(ppm_file == NULL)
     {
-        warning_msg("Nepodarilo sa otvorit subor. \n");
+        warning_msg("Nepodarilo sa otvoriť súbor. \n");
         fclose(ppm_file);
         return NULL;
     }
 
     // scanovanie a urcenie velkosti dat
     int x, y;
-    if(fscanf(ppm_file, "P6 %d %d 255", &x, &y)==EOF) error_exit("Subor je v zlom formáte.\n");
+    if(fscanf(ppm_file, "P6 %d %d 255 ", &x, &y)!=2) error_exit("Subor je v zlom formáte.\n");
     unsigned long size = 3*x*y;
 
     //overenie velkosti obrazka pre zadany limit 
@@ -50,7 +50,7 @@ struct ppm * ppm_read(const char * filename)
     image->xsize = x;
     image->ysize = y;
   
-    fread(image->data, sizeof(char), size, ppm_file );
+    if(fread(image->data, sizeof(char), size, ppm_file )==0) warning_msg("Nepodarilo sa načítať súbor.\n");
     fclose(ppm_file);
 
     return image;
