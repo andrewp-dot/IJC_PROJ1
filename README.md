@@ -18,6 +18,6 @@ Main purpose of this program is finding secret message in 'du1-obrazek.ppm' pict
 
 ### Usage
 Compilation: run `make steg-decode` in project folder
-<code>./steg-decode</code>
+<code>./steg-decode du1-obrazek.ppm</code>
 
 
